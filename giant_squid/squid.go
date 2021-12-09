@@ -18,7 +18,6 @@ func main(){
 	for i:=0; i<len(drawn_values); i++{
 		mark := drawn_values[i]
 		for idx:=0; idx<len(main_matrix); idx++{
-			fmt.Println("\n>Matrix", idx, " / Mark =", mark)
 			var ret_val int
 			if won_boards[idx] != -1{
 				main_matrix[idx], ret_val = markValuesInMatrix(main_matrix[idx], mark)
@@ -59,7 +58,6 @@ func markValuesInMatrix(matrix [][]int, mark int)([][]int, int){
 	for i:=0; i<len(matrix); i++{
 		line := 0
 		for j:=0; j<len(matrix[i]); j++{
-			fmt.Printf("%d ", matrix[i][j])
 			if matrix[i][j] == -1{
 				line++
 			}
@@ -71,7 +69,6 @@ func markValuesInMatrix(matrix [][]int, mark int)([][]int, int){
 				return matrix, mark
 			}
 		}
-		fmt.Println()
 	}
 	for j:=0; j<len(matrix[0]); j++{
 		col := 0

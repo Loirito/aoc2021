@@ -16,14 +16,22 @@ func main(){
 	}
 	defer content.Close()
 	
-	inputSlice := readLineIntoIntSlice(content)
+	numOfFishForEachDaySli := readLineIntoIntSlice(content)
 
 	numOfDays, err := strconv.Atoi(os.Args[2])
 	if err != nil{
 		fmt.Println(fmt.Errorf("Argument 2 must be an integer for the number of days: %s", err).Error())
 		return
 	}
-	fmt.Println("Number of fish =", generateLanternfish(inputSlice, numOfDays))
+
+	numOfFishForEachDaySli = generateLanternfish(numOfFishForEachDaySli, numOfDays)
+
+	countFish := 0
+	for i:=0; i<len(numOfFishForEachDaySli); i++{
+		countFish += numOfFishForEachDaySli[i]
+	}
+	fmt.Println("Number of fish=", countFish)
+
 }
 
 func readLineIntoIntSlice(f *os.File) []int {
@@ -36,30 +44,31 @@ func readLineIntoIntSlice(f *os.File) []int {
 		intSli[i], _ = strconv.Atoi(strSli[i])
 	}
 
-	return intSli
+	var newSlice = make([]int, 9)
+	for i:=0; i<len(intSli); i++{
+		newSlice[intSli[i]]++
+	}
+	
+	return newSlice
 }
 
-func generateLanternfish(slice []int, numOfDays int) int{
-	var countFish int
-	for i:=0; i<=numOfDays; i++{
-		fmt.Println("Day", i)
-		if i != 0{
-			slice = decreaseTimer(slice)
+func generateLanternfish(slice []int, numOfDays int) []int{
+	for i:=1; i<=numOfDays; i++{
+		numOfNewFish := 0
+		for i:=0; i<len(slice); i++{
+			if i==0{
+				numOfNewFish = slice[i]
+			} else{
+				slice[i-1] = slice[i]
+				if i == 7{
+					slice[i-1] += numOfNewFish
+				}
+				if i == 8{
+					slice[i] = numOfNewFish
+				}
+			}
 		}
-	}
-	for i:=0; i<len(slice); i++{
-		countFish++
-	}
-	return countFish
-}
 
-func decreaseTimer(slice []int) []int{
-	for i:=0; i<len(slice); i++{
-		slice[i]--
-		if slice[i] == -1{
-			slice[i] = 6
-			slice = append(slice, 9)
-		}
 	}
 	return slice
 }

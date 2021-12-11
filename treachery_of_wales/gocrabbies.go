@@ -36,9 +36,9 @@ func findLowestPossibleFuel(avg int, slice []int) (bool, int){
 	left := avg-1
 	right := avg+1
 	for i:=0; i<len(slice); i++{
-		fuel_avg += calculateFuel(slice[i], avg)
-		fuel_right += calculateFuel(slice[i], right)
-		fuel_left += calculateFuel(slice[i], left)
+		fuel_avg += calculateFuelPt2(slice[i], avg)
+		fuel_right += calculateFuelPt2(slice[i], right)
+		fuel_left += calculateFuelPt2(slice[i], left)
 	}
 	if fuel_avg < fuel_right && fuel_avg < fuel_left{
 		return true, fuel_avg
@@ -49,7 +49,8 @@ func findLowestPossibleFuel(avg int, slice []int) (bool, int){
 	} 
 }
 
-func calculateFuel(slice_val int, comp int)int{
+// function that calculates fuel for part 2 of the problem
+func calculateFuelPt2(slice_val int, comp int)int{
 	if slice_val>comp{
 		sum := 0
 		for i:=1; i<=slice_val-comp; i++{
@@ -62,6 +63,15 @@ func calculateFuel(slice_val int, comp int)int{
 			sum += i
 		}
 		return sum
+	}
+}
+
+// same as function above but for part 1
+func calculateFuelPt1(slice_val int, comp int)int{
+	if slice_val>comp{
+		return slice_val-comp
+	} else{
+		return comp-slice_val
 	}
 }
 
